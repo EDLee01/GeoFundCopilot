@@ -34,9 +34,15 @@ class ReviewerSimulator:
         research_direction: str,
         innovation_points: str = "",
         verbose: bool = True,
+        on_progress=None,
     ) -> dict:
 
+        def _progress(step, total, msg):
+            if on_progress:
+                on_progress(step, total, msg)
+
         # Step 1: 检索相关论文以了解领域现状
+        _progress(1, 2, "🔍 检索相关论文，了解领域现状...")
         if verbose:
             print(f"\n🔍 [检索] 了解领域现状...")
         papers = self.engine.search(research_direction, top_k=30)
@@ -50,6 +56,7 @@ class ReviewerSimulator:
             cr_papers = []
 
         # Step 2: LLM 模拟评审
+        _progress(2, 2, "👨‍🏫 LLM 模拟评审专家意见...")
         if verbose:
             print(f"\n👨‍🏫 [评审] 模拟专家评审视角...")
         report = self._simulate_review(research_direction, innovation_points, papers, cr_papers)

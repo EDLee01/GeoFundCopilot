@@ -36,9 +36,16 @@ class NoveltyChecker:
         qdrant_top_k: int = 30,
         crossref_rows: int = 15,
         verbose: bool = True,
+        on_progress=None,
     ) -> dict:
 
+        total_steps = 3
+        def _progress(step, msg):
+            if on_progress:
+                on_progress(step, total_steps, msg)
+
         # Step 1: 提取关键词
+        _progress(1, "🧠 解析创新点，提取检索关键词...")
         if verbose:
             print(f"\n🧠 [分析] 解析创新点...")
         keywords = self._extract_keywords(innovation_point)
@@ -46,6 +53,7 @@ class NoveltyChecker:
             print(f"   关键词: {keywords.get('search_queries', [])}")
 
         # Step 2: 双源召回
+        _progress(2, "🔍 双源检索相似论文...")
         if verbose:
             print(f"\n🔍 [检索] 寻找相似论文...")
         candidates = self._retrieve(
@@ -68,6 +76,7 @@ class NoveltyChecker:
             }
 
         # Step 3: LLM 深度评估
+        _progress(3, f"📊 LLM 深度比对 {len(candidates)} 篇论文...")
         if verbose:
             print(f"\n📊 [评估] LLM 深度比对...")
         report = self._evaluate(innovation_point, keywords, candidates)

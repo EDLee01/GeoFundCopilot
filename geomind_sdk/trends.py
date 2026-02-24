@@ -37,8 +37,14 @@ class TrendAnalyzer:
         year_to: int = 2025,
         top_k: int = 300,
         verbose: bool = True,
+        on_progress=None,
     ) -> dict:
 
+        def _progress(step, total, msg):
+            if on_progress:
+                on_progress(step, total, msg)
+
+        _progress(1, 2, "🔍 语义检索相关论文并按年份聚合...")
         if verbose:
             print(f"\n🔍 [检索] 搜索相关论文...")
 
@@ -84,6 +90,7 @@ class TrendAnalyzer:
         top_journals = sorted(journal_count.items(), key=lambda x: x[1], reverse=True)[:10]
 
         # LLM 趋势总结
+        _progress(2, 2, "🧠 LLM 分析趋势，生成报告...")
         if verbose:
             print(f"\n🧠 [分析] 生成趋势报告...")
 

@@ -47,9 +47,16 @@ class GeoFundCopilot:
         crossref_per_query: int = 20,
         verify: bool = True,
         verbose: bool = True,
+        on_progress=None,
     ) -> dict:
 
+        total_steps = 5 if verify else 4
+        def _progress(step, msg):
+            if on_progress:
+                on_progress(step, total_steps, msg)
+
         # Step 1: Planner
+        _progress(1, "🧠 分析研究方向，生成检索策略...")
         if verbose:
             print(f"\n🧠 [Planner] 分析用户意图...")
         intent = self._planner(user_query)
@@ -59,6 +66,7 @@ class GeoFundCopilot:
                 print(f"   策略{i}: {q['query']}  ({q['purpose']})")
 
         # Step 2: Retriever
+        _progress(2, "🔍 双源检索: Qdrant 语义匹配 + CrossRef 实时补充...")
         if verbose:
             print(f"\n🔍 [Retriever] 双源检索...")
         candidates = self._retrieve(
@@ -76,6 +84,7 @@ class GeoFundCopilot:
             return {"query": user_query, "recommendations": {}, "total": 0, "rejected": False}
 
         # Step 3: Ranker（含拒绝能力）
+        _progress(3, f"📊 LLM 精排 {len(candidates)} 篇候选论文...")
         if verbose:
             print(f"\n📊 [Ranker] LLM 精排 + 分类...")
         ranked, rejected = self._ranker(user_query, intent, candidates, top_k=top_k)
@@ -94,6 +103,7 @@ class GeoFundCopilot:
             print(f"   (相关性 ≥ 7 分筛选后: {filtered_total} 篇)")
 
         # Step 3.5: Supplement — 检查是否遗漏重要论文，补充检索
+        _progress(4, "🔄 检查遗漏，补充重要论文...")
         if verbose:
             print(f"\n🔄 [Supplement] 检查是否遗漏重要论文...")
         ranked = self._supplement(user_query, intent, ranked, candidates, verbose=verbose)
@@ -105,6 +115,7 @@ class GeoFundCopilot:
         # Step 4: Critic
         verification_summary = {}
         if verify:
+            _progress(5, "🔎 CrossRef DOI 验证文献真实性...")
             if verbose:
                 print(f"\n🔎 [Critic] 验证文献真实性...")
             ranked, verification_summary = self._critic(ranked, verbose=verbose)

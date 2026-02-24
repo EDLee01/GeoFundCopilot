@@ -43,10 +43,16 @@ class RoadmapGenerator:
         innovation_points: str = "",
         num_phases: int = 5,
         verbose: bool = True,
+        on_progress=None,
     ) -> dict:
         """生成技术路线图数据 + SVG"""
 
+        def _progress(step, total, msg):
+            if on_progress:
+                on_progress(step, total, msg)
+
         # Step 1: 检索相关论文了解方法链
+        _progress(1, 3, "🔍 检索相关论文，分析方法链...")
         if verbose:
             print(f"\n🔍 [检索] 分析该方向常见方法链...")
         papers = self.engine.search(research_direction, top_k=20)
@@ -54,6 +60,7 @@ class RoadmapGenerator:
             print(f"   找到 {len(papers)} 篇参考论文")
 
         # Step 2: LLM 生成结构化路线图
+        _progress(2, 3, "🧠 LLM 规划技术路线图结构...")
         if verbose:
             print(f"\n🧠 [规划] 生成技术路线图...")
         roadmap_data = self._plan_roadmap(research_direction, innovation_points, papers, num_phases)
@@ -62,6 +69,7 @@ class RoadmapGenerator:
             print(f"   生成 {len(phases)} 个阶段")
 
         # Step 3: 渲染 SVG
+        _progress(3, 3, "🎨 渲染 SVG 技术路线图...")
         if verbose:
             print(f"\n🎨 [渲染] 生成 SVG...")
         svg = self.render_svg(roadmap_data)

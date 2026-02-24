@@ -256,14 +256,22 @@ with tab1:
                 client, engine = init_sdk()
                 copilot = get_copilot(engine, api_key)
 
-                with st.spinner("正在分析研究方向并检索文献... (约30-60秒)"):
-                    result = copilot.recommend(
-                        rec_query.strip(),
-                        top_k=rec_top_k,
-                        verify=rec_verify,
-                        verbose=False,
-                    )
+                rec_progress = st.progress(0, text="准备中...")
+                rec_status = st.container()
 
+                def rec_on_progress(step, total, msg):
+                    rec_progress.progress(step / total, text=msg)
+                    rec_status.caption(f"Step {step}/{total}: {msg}")
+
+                result = copilot.recommend(
+                    rec_query.strip(),
+                    top_k=rec_top_k,
+                    verify=rec_verify,
+                    verbose=False,
+                    on_progress=rec_on_progress,
+                )
+
+                rec_progress.progress(1.0, text="✅ 推荐完成！")
                 st.session_state["rec_result"] = result
             except Exception as e:
                 st.error(f"推荐失败: {e}")
@@ -364,9 +372,19 @@ with tab2:
                 client, engine = init_sdk()
                 checker = get_checker(engine, api_key)
 
-                with st.spinner("正在检索相似论文并评估新颖度... (约20-40秒)"):
-                    report = checker.check(novelty_input.strip(), verbose=False)
+                nov_progress = st.progress(0, text="准备中...")
+                nov_status = st.container()
 
+                def nov_on_progress(step, total, msg):
+                    nov_progress.progress(step / total, text=msg)
+                    nov_status.caption(f"Step {step}/{total}: {msg}")
+
+                report = checker.check(
+                    novelty_input.strip(), verbose=False,
+                    on_progress=nov_on_progress,
+                )
+
+                nov_progress.progress(1.0, text="✅ 查重完成！")
                 st.session_state["novelty_result"] = report
             except Exception as e:
                 st.error(f"查重失败: {e}")
@@ -479,14 +497,22 @@ with tab3:
                 client, engine = init_sdk()
                 analyzer = get_trend_analyzer(engine, api_key)
 
-                with st.spinner("正在分析研究趋势... (约20-40秒)"):
-                    trend_result = analyzer.analyze(
-                        trend_query.strip(),
-                        year_from=trend_year_from,
-                        year_to=trend_year_to,
-                        verbose=False,
-                    )
+                trend_progress = st.progress(0, text="准备中...")
+                trend_status = st.container()
 
+                def trend_on_progress(step, total, msg):
+                    trend_progress.progress(step / total, text=msg)
+                    trend_status.caption(f"Step {step}/{total}: {msg}")
+
+                trend_result = analyzer.analyze(
+                    trend_query.strip(),
+                    year_from=trend_year_from,
+                    year_to=trend_year_to,
+                    verbose=False,
+                    on_progress=trend_on_progress,
+                )
+
+                trend_progress.progress(1.0, text="✅ 趋势分析完成！")
                 st.session_state["trend_result"] = trend_result
             except Exception as e:
                 st.error(f"趋势分析失败: {e}")
@@ -578,13 +604,21 @@ with tab4:
                 client, engine = init_sdk()
                 reviewer = get_reviewer(engine, api_key)
 
-                with st.spinner("正在模拟评审专家评审... (约30-60秒)"):
-                    review_result = reviewer.review(
-                        review_direction.strip(),
-                        innovation_points=review_innovation.strip(),
-                        verbose=False,
-                    )
+                rev_progress = st.progress(0, text="准备中...")
+                rev_status = st.container()
 
+                def rev_on_progress(step, total, msg):
+                    rev_progress.progress(step / total, text=msg)
+                    rev_status.caption(f"Step {step}/{total}: {msg}")
+
+                review_result = reviewer.review(
+                    review_direction.strip(),
+                    innovation_points=review_innovation.strip(),
+                    verbose=False,
+                    on_progress=rev_on_progress,
+                )
+
+                rev_progress.progress(1.0, text="✅ 评审模拟完成！")
                 st.session_state["review_result"] = review_result
             except Exception as e:
                 st.error(f"评审模拟失败: {e}")
@@ -680,14 +714,22 @@ with tab5:
                 client, engine = init_sdk()
                 generator = get_roadmap_generator(engine, api_key)
 
-                with st.spinner("正在生成技术路线图... (约20-40秒)"):
-                    roadmap_result = generator.generate(
-                        roadmap_direction.strip(),
-                        innovation_points=roadmap_innovation.strip(),
-                        num_phases=num_phases,
-                        verbose=False,
-                    )
+                rm_progress = st.progress(0, text="准备中...")
+                rm_status = st.container()
 
+                def rm_on_progress(step, total, msg):
+                    rm_progress.progress(step / total, text=msg)
+                    rm_status.caption(f"Step {step}/{total}: {msg}")
+
+                roadmap_result = generator.generate(
+                    roadmap_direction.strip(),
+                    innovation_points=roadmap_innovation.strip(),
+                    num_phases=num_phases,
+                    verbose=False,
+                    on_progress=rm_on_progress,
+                )
+
+                rm_progress.progress(1.0, text="✅ 路线图生成完成！")
                 st.session_state["roadmap_result"] = roadmap_result
             except Exception as e:
                 st.error(f"路线图生成失败: {e}")
