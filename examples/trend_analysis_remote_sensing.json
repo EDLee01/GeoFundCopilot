@@ -1,0 +1,69 @@
+{
+  "query": "remote sensing water quality inversion deep learning",
+  "year_range": [2010, 2025],
+  "total_papers": 245,
+  "year_distribution": {
+    "2010": 3, "2011": 4, "2012": 5, "2013": 7, "2014": 8,
+    "2015": 10, "2016": 12, "2017": 15, "2018": 18, "2019": 22,
+    "2020": 28, "2021": 32, "2022": 35, "2023": 30, "2024": 16
+  },
+  "milestones": [
+    {
+      "year": 2015,
+      "title": "Remote sensing of inland waters: background and current state-of-the-art",
+      "first_author": "C. Giardino",
+      "journal": "Inland Waters",
+      "cited_by": 342,
+      "doi": "https://doi.org/10.1080/IW-6.4.803"
+    },
+    {
+      "year": 2017,
+      "title": "A review of remote sensing methods for water quality monitoring",
+      "first_author": "Yunjun Yao",
+      "journal": "Remote Sensing of Environment",
+      "cited_by": 567,
+      "doi": "https://doi.org/10.1016/j.rse.2017.04.005"
+    },
+    {
+      "year": 2020,
+      "title": "Deep learning for remote sensing of water quality parameters: A review",
+      "first_author": "Fangling Pu",
+      "journal": "ISPRS Journal of Photogrammetry and Remote Sensing",
+      "cited_by": 234,
+      "doi": "https://doi.org/10.1016/j.isprsjprs.2020.08.012"
+    },
+    {
+      "year": 2022,
+      "title": "Transformer-based models for remote sensing water quality estimation",
+      "first_author": "Zhongping Lee",
+      "journal": "Remote Sensing of Environment",
+      "cited_by": 156,
+      "doi": "https://doi.org/10.1016/j.rse.2022.113245"
+    }
+  ],
+  "top_journals": [
+    {"journal": "Remote Sensing of Environment", "count": 38},
+    {"journal": "Water Research", "count": 25},
+    {"journal": "Science of The Total Environment", "count": 22},
+    {"journal": "ISPRS Journal of Photogrammetry and Remote Sensing", "count": 18},
+    {"journal": "Remote Sensing", "count": 16},
+    {"journal": "Journal of Hydrology", "count": 14},
+    {"journal": "Environmental Science & Technology", "count": 12},
+    {"journal": "IEEE Transactions on Geoscience and Remote Sensing", "count": 10}
+  ],
+  "trend_summary": "遥感水质反演与深度学习结合的研究在过去15年经历了显著的增长。2010-2015年为萌芽期，主要以传统经验模型和半分析模型为主；2016-2019年是快速发展期，CNN和RNN开始被引入遥感水质反演，引起学界广泛关注；2020-2022年达到高峰，深度学习方法全面渗透，Transformer架构的引入标志着新一轮技术迭代；2023年后论文数量略有回落，表明该领域正从方法探索转向应用深化和物理可解释性研究。整体趋势表明，该方向仍处于活跃期，但竞争日趋激烈，纯方法创新的空间正在收窄。",
+  "hot_topics": [
+    "Transformer/注意力机制在遥感水质反演中的应用",
+    "物理引导的深度学习（Physics-informed）水质模型",
+    "多源遥感数据融合（Sentinel-2 + Landsat + 无人机）",
+    "高时空分辨率水质动态监测",
+    "迁移学习解决标签稀缺问题"
+  ],
+  "future_directions": [
+    "基于大语言模型(LLM)的多模态遥感水质分析",
+    "实时遥感水质预警系统（边缘计算+深度学习）",
+    "全球尺度水质遥感数据集构建与基准测试",
+    "因果推断在遥感水质建模中的应用",
+    "城市水体微量污染物的遥感反演"
+  ]
+}

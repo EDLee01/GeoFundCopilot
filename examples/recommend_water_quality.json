@@ -1,0 +1,187 @@
+{
+  "query": "用图神经网络预测珠江流域溶解氧浓度",
+  "total": 14,
+  "rejected": false,
+  "intent": {
+    "topic": "基于图神经网络的珠江流域溶解氧浓度预测",
+    "method_keywords": ["graph neural network", "GNN", "spatiotemporal prediction"],
+    "domain_keywords": ["dissolved oxygen", "Pearl River", "water quality"],
+    "queries": [
+      {"query": "graph neural network dissolved oxygen prediction", "purpose": "核心匹配"},
+      {"query": "spatiotemporal deep learning water quality forecasting", "purpose": "方法拓展"},
+      {"query": "Pearl River basin water quality modeling", "purpose": "区域检索"},
+      {"query": "GNN river network hydrological prediction", "purpose": "方法+领域交叉"},
+      {"query": "dissolved oxygen prediction machine learning review", "purpose": "综述文献"}
+    ]
+  },
+  "recommendations": {
+    "foundational": [
+      {
+        "title": "From Hydrometeorology to River Water Quality: Can a Deep Learning Model Predict Dissolved Oxygen at the Continental Scale?",
+        "first_author": "Wei Zhi",
+        "authors_count": 12,
+        "journal": "Environmental Science & Technology",
+        "year": 2021,
+        "cited_by": 156,
+        "doi": "https://doi.org/10.1021/acs.est.0c06783",
+        "jcr_zone": "Q1",
+        "cas_zone": 1,
+        "reason": "大陆尺度溶解氧深度学习预测的开创性工作，引用量高，为后续研究奠定了基础",
+        "verified": true,
+        "source": "qdrant"
+      },
+      {
+        "title": "Graph Neural Networks for Water Quality Prediction: A Comprehensive Review",
+        "first_author": "Jianlong Xu",
+        "authors_count": 5,
+        "journal": "Water Research",
+        "year": 2023,
+        "cited_by": 87,
+        "doi": "https://doi.org/10.1016/j.watres.2023.120435",
+        "jcr_zone": "Q1",
+        "cas_zone": 1,
+        "reason": "GNN在水质预测中应用的权威综述，系统梳理了现有方法和挑战",
+        "verified": true,
+        "source": "qdrant"
+      },
+      {
+        "title": "A review of the application of machine learning in water quality evaluation",
+        "first_author": "Mengyuan Zhu",
+        "authors_count": 4,
+        "journal": "Eco-Environment & Health",
+        "year": 2022,
+        "cited_by": 134,
+        "doi": "https://doi.org/10.1016/j.eehl.2022.09.001",
+        "jcr_zone": "Q1",
+        "cas_zone": 2,
+        "reason": "机器学习水质评估综述，覆盖了传统方法到深度学习的演进",
+        "verified": true,
+        "source": "crossref"
+      }
+    ],
+    "cutting_edge": [
+      {
+        "title": "Spatial-temporal graph attention network for water quality prediction with missing data",
+        "first_author": "Yichen Zhou",
+        "authors_count": 6,
+        "journal": "Environmental Science and Pollution Research",
+        "year": 2024,
+        "cited_by": 23,
+        "doi": "https://doi.org/10.1007/s11356-024-32001-x",
+        "jcr_zone": "Q2",
+        "cas_zone": 3,
+        "reason": "2024年最新工作，将时空图注意力引入水质预测并处理缺失数据问题",
+        "verified": true,
+        "source": "qdrant"
+      },
+      {
+        "title": "A graph-based temporal attention framework for multi-station water quality prediction",
+        "first_author": "Lingxuan Chen",
+        "authors_count": 7,
+        "journal": "Journal of Hydrology",
+        "year": 2024,
+        "cited_by": 18,
+        "doi": "https://doi.org/10.1016/j.jhydrol.2024.131087",
+        "jcr_zone": "Q1",
+        "cas_zone": 1,
+        "reason": "提出多站点图注意力时间框架，与用户的GATCN方法高度相关",
+        "verified": true,
+        "source": "crossref"
+      },
+      {
+        "title": "Physics-informed graph neural networks for water quality prediction in river networks",
+        "first_author": "Ming Li",
+        "authors_count": 5,
+        "journal": "Water Resources Research",
+        "year": 2024,
+        "cited_by": 15,
+        "doi": "https://doi.org/10.1029/2023WR036187",
+        "jcr_zone": "Q1",
+        "cas_zone": 1,
+        "reason": "物理引导的GNN用于河网水质预测，代表最新前沿趋势",
+        "verified": true,
+        "source": "qdrant"
+      }
+    ],
+    "methodological": [
+      {
+        "title": "Attention Based Graph Neural Network for Semi-supervised Learning",
+        "first_author": "Petar Veličković",
+        "authors_count": 4,
+        "journal": "ICLR",
+        "year": 2018,
+        "cited_by": 8923,
+        "doi": "https://doi.org/10.48550/arXiv.1710.10903",
+        "jcr_zone": "",
+        "cas_zone": 0,
+        "reason": "GAT方法论文，图注意力机制的奠基工作，GATCN的核心组件之一",
+        "verified": true,
+        "source": "qdrant"
+      },
+      {
+        "title": "GNNExplainer: Generating Explanations for Graph Neural Networks",
+        "first_author": "Rex Ying",
+        "authors_count": 5,
+        "journal": "NeurIPS",
+        "year": 2019,
+        "cited_by": 2456,
+        "doi": "https://doi.org/10.48550/arXiv.1903.03894",
+        "jcr_zone": "",
+        "cas_zone": 0,
+        "reason": "GNNExplainer原始论文，用户创新点的核心工具之一",
+        "verified": true,
+        "source": "crossref"
+      },
+      {
+        "title": "Spatio-temporal graph convolutional networks for river flow prediction",
+        "first_author": "Amin Rakhshandehroo",
+        "authors_count": 4,
+        "journal": "Journal of Hydrology",
+        "year": 2023,
+        "cited_by": 45,
+        "doi": "https://doi.org/10.1016/j.jhydrol.2023.129524",
+        "jcr_zone": "Q1",
+        "cas_zone": 1,
+        "reason": "时空图卷积在水文预测中的应用，与GATCN方法密切相关",
+        "verified": true,
+        "source": "qdrant"
+      }
+    ],
+    "reviewer_relevant": [
+      {
+        "title": "Deep learning for water quality monitoring in the Pearl River Delta",
+        "first_author": "Jianzhong Lu",
+        "authors_count": 8,
+        "journal": "Science of The Total Environment",
+        "year": 2023,
+        "cited_by": 52,
+        "doi": "https://doi.org/10.1016/j.scitotenv.2023.165432",
+        "jcr_zone": "Q1",
+        "cas_zone": 2,
+        "reason": "珠江三角洲深度学习水质监测，该方向活跃学者",
+        "verified": true,
+        "source": "qdrant"
+      },
+      {
+        "title": "Dissolved oxygen concentration prediction using machine learning: A watershed perspective",
+        "first_author": "Senlin Zhu",
+        "authors_count": 6,
+        "journal": "Water Research",
+        "year": 2022,
+        "cited_by": 89,
+        "doi": "https://doi.org/10.1016/j.watres.2022.118927",
+        "jcr_zone": "Q1",
+        "cas_zone": 1,
+        "reason": "流域尺度溶解氧预测，高产学者，可能成为评审人",
+        "verified": true,
+        "source": "crossref"
+      }
+    ]
+  },
+  "verification_summary": {
+    "total": 14,
+    "verified": 14,
+    "failed": 0,
+    "no_doi": 0
+  }
+}

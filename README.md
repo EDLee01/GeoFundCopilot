@@ -1,30 +1,33 @@
 # 🔬 GeoFund Copilot
 
-> 地球科学基金申请智能文献助手  
+> 地球科学基金申请智能文献助手
 > Intelligent Literature Assistant for Earth Science Grant Applications
 
 [![Python](https://img.shields.io/badge/python-≥3.9-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-GeoFund Copilot 帮助地球科学研究人员快速找到高质量参考文献，检查创新点新颖度。
+GeoFund Copilot 帮助地球科学研究人员快速找到高质量参考文献，检查创新点新颖度，分析研究趋势，模拟评审视角。
 
 ## ✨ 核心功能
 
 | 功能 | 说明 |
 |------|------|
 | **📚 智能文献推荐** | 输入研究方向 → 按"必引经典/前沿进展/方法借鉴/潜在评审人"四类推荐 |
-| **🔬 创新点查重** | 输入创新点 → 4 维度重叠分析 + 新颖度评分 + 改写建议 |
-| **📎 引用格式化** | GB/T 7714 / BibTeX / APA 一键输出 |
+| **🔬 创新点查重** | 输入创新点 → 4 维度重叠雷达图 + 新颖度评分 + 改写建议 |
+| **📈 研究趋势分析** | 输入关键词 → 发文趋势图 + 里程碑论文 + 热点方向 + 未来展望 |
+| **👨‍🏫 评审视角模拟** | 输入研究方向 → 模拟国自然评审意见 + 尖锐问题 + 改进建议 |
+| **📎 引用格式化** | GB/T 7714 / BibTeX / APA 一键导出 |
 
 ## 🔧 技术特点
 
 - **127 万篇论文** — OpenAlex 地球科学全量数据，BGE 向量语义检索
 - **双源检索** — Qdrant 语义匹配 + CrossRef 实时补充，覆盖最新论文
 - **Critic Agent** — CrossRef DOI 验证，杜绝 LLM 编造文献
+- **Web UI** — Streamlit 可视化界面，零门槛使用
 
 ## 📦 快速开始
 
-### 独立 CLI（开发调试）
+### Web UI（推荐）
 
 ```bash
 # 安装依赖
@@ -33,6 +36,15 @@ pip install -r requirements.txt
 # 设置 DeepSeek API Key
 export DEEPSEEK_API_KEY=sk-xxx
 
+# 启动 Web 界面
+streamlit run app.py
+```
+
+打开浏览器访问 `http://localhost:8501`，即可使用全部功能。
+
+### 命令行
+
+```bash
 # 文献推荐
 python scripts/recommend.py "用图神经网络预测珠江流域溶解氧浓度"
 
@@ -46,47 +58,78 @@ python scripts/format_refs.py --doi "10.1016/j.watres.2023.120001" --style gbt77
 python scripts/copilot_demo.py
 ```
 
+### 示例输出
+
+`examples/` 目录包含预生成的示例，无需配置即可查看效果：
+
+- `recommend_water_quality.json` — 图神经网络水质预测文献推荐
+- `novelty_check_gatcn.json` — GATCN 创新点查重报告（含四维雷达图数据）
+- `trend_analysis_remote_sensing.json` — 遥感水质反演研究趋势
+- `reviewer_simulation.json` — 评审视角模拟意见
+
 ## 📁 项目结构
 
 ```
 geofund/
-├── geomind_sdk/                  # 核心 SDK
-│   ├── client.py                 # Qdrant Cloud 连接
-│   ├── search.py                 # BGE 语义检索 + 过滤
-│   ├── crossref.py               # CrossRef API (检索 + DOI 验证)
-│   ├── copilot.py                # 文献推荐 Agent
-│   ├── novelty.py                # 创新点查重
-│   ├── formatter.py              # 引用格式化
-│   └── metadata.py               # 元数据查询
+├── app.py                           # Streamlit Web UI
+├── geomind_sdk/                     # 核心 SDK
+│   ├── client.py                    # Qdrant Cloud 连接
+│   ├── search.py                    # BGE 语义检索 + 过滤
+│   ├── crossref.py                  # CrossRef API (检索 + DOI 验证)
+│   ├── copilot.py                   # 文献推荐 Agent
+│   ├── novelty.py                   # 创新点查重
+│   ├── trends.py                    # 研究趋势分析
+│   ├── reviewer.py                  # 评审视角模拟
+│   ├── formatter.py                 # 引用格式化
+│   └── metadata.py                  # 元数据查询
 │
-├── scripts/                      # 可执行脚本
-│   ├── recommend.py              # 文献推荐入口
-│   ├── novelty_check.py          # 创新点查重入口
-│   ├── format_refs.py            # 引用格式化入口
-│   ├── copilot_demo.py           # 交互式 Demo
-│   ├── create_indexes.py         # Qdrant 索引创建
-│   └── inspect_data.py           # 数据检查
+├── scripts/                         # CLI 脚本
+│   ├── recommend.py                 # 文献推荐入口
+│   ├── novelty_check.py             # 创新点查重入口
+│   ├── format_refs.py               # 引用格式化入口
+│   ├── copilot_demo.py              # 交互式 Demo
+│   ├── create_indexes.py            # Qdrant 索引创建
+│   └── inspect_data.py              # 数据检查
 │
-├── config/                       # 配置模板
-│   └── config.example.json       # SDK 配置
+├── examples/                        # 示例输出
+│   ├── recommend_water_quality.json
+│   ├── novelty_check_gatcn.json
+│   ├── trend_analysis_remote_sensing.json
+│   └── reviewer_simulation.json
 │
-├── tests/                        # 测试
-├── requirements.txt              # 依赖
+├── config/                          # 配置模板
+│   └── config.example.json
+│
+├── tests/                           # 测试
+├── requirements.txt                 # 依赖
 └── README.md
 ```
 
 ## 🏗️ 架构
 
 ```
-用户输入 (CLI / API)
+用户输入 (Web UI / CLI / API)
     │
     ▼
 GeoFund SDK
     │
-    ├── Planner (DeepSeek) → 4-6 条检索策略
-    ├── Retriever → Qdrant (127万) + CrossRef (实时)
-    ├── Ranker (DeepSeek) → 4 类分类 + 拒绝能力
-    └── Critic → CrossRef DOI 验证
+    ├── 📚 Copilot (文献推荐)
+    │   ├── Planner (DeepSeek) → 4-6 条检索策略
+    │   ├── Retriever → Qdrant (127万) + CrossRef (实时)
+    │   ├── Ranker (DeepSeek) → 4 类分类 + 拒绝能力
+    │   └── Critic → CrossRef DOI 验证
+    │
+    ├── 🔬 NoveltyChecker (创新点查重)
+    │   ├── 关键词提取 → 双源检索
+    │   └── 4 维度重叠分析 + 雷达图
+    │
+    ├── 📈 TrendAnalyzer (趋势分析)
+    │   ├── 语义检索 → 年份聚合
+    │   └── LLM 趋势总结 + 热点识别
+    │
+    └── 👨‍🏫 ReviewerSimulator (评审模拟)
+        ├── 领域检索 → 现状分析
+        └── LLM 模拟评审意见
 ```
 
 ## 📊 数据源
@@ -108,8 +151,8 @@ GeoFund SDK
 
 ## 🗺️ 路线图
 
-- [x] **v0.1** — SDK 核心
-- [ ] **v0.2** — Memory 利用 + 研究趋势分析
+- [x] **v0.1** — SDK 核心（文献推荐 + 创新点查重 + 引用格式化）
+- [x] **v0.2** — Web UI + 研究趋势分析 + 评审视角模拟 + .bib 导出
 - [ ] **v0.3** — 技术路线图自动生成（基于文献方法链路分析）
 - [ ] **v0.4** — 每周新论文推送 (Cron + CrossRef)
 - [ ] **v0.5** — 投稿选刊建议 + 综述段落生成

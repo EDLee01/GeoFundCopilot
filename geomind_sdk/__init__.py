@@ -5,8 +5,11 @@ from geomind_sdk.formatter import CitationFormatter
 from geomind_sdk.crossref import CrossRefClient
 from geomind_sdk.copilot import GeoFundCopilot
 from geomind_sdk.novelty import NoveltyChecker
+from geomind_sdk.trends import TrendAnalyzer
+from geomind_sdk.reviewer import ReviewerSimulator
 
 __all__ = [
     "GeoMindClient", "SearchEngine", "MetadataStore", "CitationFormatter",
     "CrossRefClient", "GeoFundCopilot", "NoveltyChecker",
+    "TrendAnalyzer", "ReviewerSimulator",
 ]
