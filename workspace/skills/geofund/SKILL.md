@@ -16,7 +16,7 @@ alwaysLoad: false
 
 ## 工作目录
 
-所有脚本位于 `~/.nanobot/workspace/geofund/scripts/`，执行前先 `cd ~/.nanobot/workspace/geofund`。
+所有脚本位于项目 `scripts/` 目录下。
 
 ---
 
@@ -26,7 +26,7 @@ alwaysLoad: false
 
 **命令**:
 ```bash
-cd ~/.nanobot/workspace/geofund && python scripts/recommend.py "用户的研究方向"
+python scripts/recommend.py "用户的研究方向"
 ```
 
 **可选参数**:
@@ -42,8 +42,8 @@ cd ~/.nanobot/workspace/geofund && python scripts/recommend.py "用户的研究�
 
 **示例**:
 ```bash
-cd ~/.nanobot/workspace/geofund && python scripts/recommend.py "用图神经网络预测珠江流域溶解氧浓度"
-cd ~/.nanobot/workspace/geofund && python scripts/recommend.py "remote sensing total nitrogen machine learning Pearl River"
+python scripts/recommend.py "用图神经网络预测珠江流域溶解氧浓度"
+python scripts/recommend.py "remote sensing total nitrogen machine learning Pearl River"
 ```
 
 **输出处理**: 脚本会直接输出格式化的推荐列表。你需要：
@@ -59,7 +59,7 @@ cd ~/.nanobot/workspace/geofund && python scripts/recommend.py "remote sensing t
 
 **命令**:
 ```bash
-cd ~/.nanobot/workspace/geofund && python scripts/novelty_check.py "用户的创新点描述"
+python scripts/novelty_check.py "用户的创新点描述"
 ```
 
 **可选参数**:
@@ -85,7 +85,7 @@ cd ~/.nanobot/workspace/geofund && python scripts/novelty_check.py "用户的创
 
 **命令**:
 ```bash
-cd ~/.nanobot/workspace/geofund && python scripts/format_refs.py --doi "10.1000/xxx" --doi "10.1000/yyy" --style gbt7714
+python scripts/format_refs.py --doi "10.1000/xxx" --doi "10.1000/yyy" --style gbt7714
 ```
 
 **可选 style**: `gbt7714`(默认), `apa`, `bibtex`

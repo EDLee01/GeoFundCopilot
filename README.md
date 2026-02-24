@@ -21,11 +21,10 @@ GeoFund Copilot 帮助地球科学研究人员快速找到高质量参考文献�
 - **127 万篇论文** — OpenAlex 地球科学全量数据，BGE 向量语义检索
 - **双源检索** — Qdrant 语义匹配 + CrossRef 实时补充，覆盖最新论文
 - **Critic Agent** — CrossRef DOI 验证，杜绝 LLM 编造文献
-- **nanobot 集成** — 通过微信直接对话使用（MoChat channel）
 
 ## 📦 快速开始
 
-### 方式一：独立 CLI（开发调试）
+### 独立 CLI（开发调试）
 
 ```bash
 # 安装依赖
@@ -45,33 +44,6 @@ python scripts/format_refs.py --doi "10.1016/j.watres.2023.120001" --style gbt77
 
 # 交互式 Demo
 python scripts/copilot_demo.py
-```
-
-### 方式二：nanobot Agent（微信接入）
-
-```bash
-# 1. 安装 nanobot
-pip install nanobot-ai
-
-# 2. 初始化
-nanobot onboard
-
-# 3. 部署 GeoFund 到 workspace
-cp -r geomind_sdk/ ~/.nanobot/workspace/geofund/geomind_sdk/
-cp -r scripts/ ~/.nanobot/workspace/geofund/scripts/
-cp -r workspace/skills/ ~/.nanobot/workspace/skills/
-cp workspace/AGENTS.md ~/.nanobot/workspace/AGENTS.md
-cp workspace/SOUL.md ~/.nanobot/workspace/SOUL.md
-
-# 4. 配置 (复制模板后填入 API Key)
-cp config/nanobot.config.example.json ~/.nanobot/config.json
-# 编辑 ~/.nanobot/config.json，填入 DeepSeek API Key 和 MoChat claw_token
-
-# 5. 本地测试
-nanobot agent -m "帮我查一下用图神经网络预测水质的文献"
-
-# 6. 启动微信 gateway
-nanobot gateway
 ```
 
 ## 📁 项目结构
@@ -95,16 +67,8 @@ geofund/
 │   ├── create_indexes.py         # Qdrant 索引创建
 │   └── inspect_data.py           # 数据检查
 │
-├── workspace/                    # nanobot workspace 文件
-│   ├── AGENTS.md                 # Agent 人设
-│   ├── SOUL.md                   # Agent 性格
-│   └── skills/
-│       └── geofund/
-│           └── SKILL.md          # 技能定义
-│
 ├── config/                       # 配置模板
-│   ├── config.example.json       # SDK 配置
-│   └── nanobot.config.example.json  # nanobot 配置
+│   └── config.example.json       # SDK 配置
 │
 ├── tests/                        # 测试
 ├── requirements.txt              # 依赖
@@ -114,12 +78,8 @@ geofund/
 ## 🏗️ 架构
 
 ```
-用户 (微信)
-    │ MoChat
-    ▼
-nanobot Gateway
-    │ AgentLoop + SKILL.md
-    │ ExecTool (shell)
+用户输入 (CLI / API)
+    │
     ▼
 GeoFund SDK
     │
@@ -145,11 +105,10 @@ GeoFund SDK
 | **DeepSeek API** | https://platform.deepseek.com | LLM 推理（Planner/Ranker/Evaluator） |
 | **Qdrant Cloud** | 内置公共 Key | 体验期至 2026-03-15 |
 | **CrossRef** | 无需 Key | Polite Pool 自动生效 |
-| **MoChat** | https://mochat.io | 微信接入（可选） |
 
 ## 🗺️ 路线图
 
-- [x] **v0.1** — SDK 核心 + nanobot 集成 + 微信接入
+- [x] **v0.1** — SDK 核心
 - [ ] **v0.2** — Memory 利用 + 研究趋势分析
 - [ ] **v0.3** — 每周新论文推送 (Cron + CrossRef)
 - [ ] **v0.4** — 投稿选刊建议 + 综述段落生成
@@ -162,4 +121,3 @@ MIT
 
 - [Ai4earthscience](https://mp.weixin.qq.com/s/xxx) — 微信公众号 (3000+ 关注)
 - [GeoMind](https://github.com/xxx) — AI 地球科学研究助手
-- [nanobot](https://github.com/HKUDS/nanobot) — 超轻量 AI Agent 框架
