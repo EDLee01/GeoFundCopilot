@@ -1,0 +1,37 @@
+{
+  "providers": {
+    "deepseek": {
+      "apiKey": "sk-xxx"
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": "deepseek/deepseek-chat",
+      "maxTokens": 8192,
+      "temperature": 0.3,
+      "maxToolIterations": 20
+    }
+  },
+  "channels": {
+    "mochat": {
+      "enabled": true,
+      "base_url": "https://mochat.io",
+      "socket_url": "https://mochat.io",
+      "socket_path": "/socket.io",
+      "claw_token": "claw_xxx",
+      "agent_user_id": "YOUR_AGENT_USER_ID",
+      "sessions": ["*"],
+      "panels": ["*"],
+      "reply_delay_mode": "non-mention",
+      "reply_delay_ms": 5000
+    }
+  },
+  "tools": {
+    "restrictToWorkspace": false,
+    "web": {
+      "search": {
+        "apiKey": ""
+      }
+    }
+  }
+}

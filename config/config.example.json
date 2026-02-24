@@ -1,0 +1,12 @@
+{
+  "qdrant": {
+    "url": "https://eec5ae99-7f4a-4de3-b0ae-754cf6306c95.us-east4-0.gcp.cloud.qdrant.io:6333",
+    "api_key": "YOUR_QDRANT_API_KEY",
+    "collection": "geomind_papers",
+    "timeout": 60
+  },
+  "embedding": {
+    "model": "BAAI/bge-base-en-v1.5",
+    "dimension": 768
+  }
+}
