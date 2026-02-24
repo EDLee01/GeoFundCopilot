@@ -82,6 +82,11 @@ def get_reviewer(engine, api_key):
     return ReviewerSimulator(engine, deepseek_api_key=api_key)
 
 
+def get_roadmap_generator(engine, api_key):
+    from geomind_sdk.roadmap import RoadmapGenerator
+    return RoadmapGenerator(engine, deepseek_api_key=api_key)
+
+
 # ============================================================
 # 工具函数
 # ============================================================
@@ -215,11 +220,12 @@ def render_paper_card(paper: dict, index: int, category: str = ""):
 # 标签页
 # ============================================================
 
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "📚 文献推荐",
     "🔬 创新点查重",
     "📈 研究趋势",
     "👨‍🏫 评审视角",
+    "🗺️ 技术路线图",
 ])
 
 # ── Tab 1: 文献推荐 ──────────────────────────────────────────
@@ -640,3 +646,105 @@ with tab4:
                 st.markdown(f"- 📖 {m}")
             for r in rec_refs:
                 st.markdown(f"- 🔗 {r}")
+
+# ── Tab 5: 技术路线图 ─────────────────────────────────────────
+
+with tab5:
+    st.header("🗺️ 技术路线图生成")
+    st.markdown("输入研究方向和创新点，自动生成可用于申请书的 SVG 技术路线图。")
+
+    roadmap_direction = st.text_area(
+        "研究方向",
+        placeholder="例: 基于图神经网络的流域水质时空预测方法研究",
+        height=80,
+        key="roadmap_direction",
+    )
+    roadmap_innovation = st.text_area(
+        "创新点 (可选，会在路线图中标注)",
+        placeholder="例: 1) 提出GATCN模型 2) GNNExplainer可解释分析 3) 珠江流域多站点验证",
+        height=80,
+        key="roadmap_innovation",
+    )
+
+    rm_col1, rm_col2 = st.columns([1, 3])
+    with rm_col1:
+        num_phases = st.slider("阶段数", 3, 6, 5, key="roadmap_phases")
+
+    if st.button("🗺️ 生成路线图", key="btn_roadmap", type="primary", use_container_width=True):
+        if not api_key:
+            st.error("请在侧边栏输入 DeepSeek API Key")
+        elif not roadmap_direction.strip():
+            st.warning("请输入研究方向")
+        else:
+            try:
+                client, engine = init_sdk()
+                generator = get_roadmap_generator(engine, api_key)
+
+                with st.spinner("正在生成技术路线图... (约20-40秒)"):
+                    roadmap_result = generator.generate(
+                        roadmap_direction.strip(),
+                        innovation_points=roadmap_innovation.strip(),
+                        num_phases=num_phases,
+                        verbose=False,
+                    )
+
+                st.session_state["roadmap_result"] = roadmap_result
+            except Exception as e:
+                st.error(f"路线图生成失败: {e}")
+
+    # 渲染结果
+    if "roadmap_result" in st.session_state:
+        roadmap = st.session_state["roadmap_result"]
+        st.divider()
+
+        svg_content = roadmap.get("svg", "")
+        if svg_content:
+            # 渲染 SVG
+            import base64
+            b64 = base64.b64encode(svg_content.encode("utf-8")).decode("utf-8")
+            st.markdown(
+                f'<img src="data:image/svg+xml;base64,{b64}" style="width:100%;"/>',
+                unsafe_allow_html=True,
+            )
+
+            # 下载按钮
+            dl_col1, dl_col2 = st.columns(2)
+            with dl_col1:
+                st.download_button(
+                    "📥 下载 SVG",
+                    svg_content,
+                    file_name="technical_roadmap.svg",
+                    mime="image/svg+xml",
+                )
+            with dl_col2:
+                roadmap_json = {k: v for k, v in roadmap.items() if k != "svg"}
+                st.download_button(
+                    "📥 下载 JSON 数据",
+                    json.dumps(roadmap_json, ensure_ascii=False, indent=2),
+                    file_name="roadmap_data.json",
+                    mime="application/json",
+                )
+
+        # 文字版路线图
+        phases = roadmap.get("phases", [])
+        if phases:
+            st.divider()
+            st.markdown("#### 📋 路线图详情")
+            for p in phases:
+                with st.expander(f"Phase {p.get('id', '?')}: {p.get('name', '?')} — {p.get('duration', '')}"):
+                    st.markdown("**任务:**")
+                    for t in p.get("tasks", []):
+                        st.markdown(f"- {t}")
+                    methods = p.get("methods", [])
+                    if methods:
+                        st.markdown(f"**方法/工具:** {', '.join(methods)}")
+                    output = p.get("output", "")
+                    if output:
+                        st.markdown(f"**产出:** {output}")
+
+        # 预期成果
+        expected = roadmap.get("expected_results", [])
+        if expected:
+            st.markdown("#### 🎯 预期成果")
+            for e in expected:
+                st.markdown(f"- {e}")
